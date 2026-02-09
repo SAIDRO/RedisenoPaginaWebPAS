@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { FadeIn } from './ui/FadeIn';
 
 const heroSlides = [
   {
@@ -42,13 +43,13 @@ export function Hero() {
   };
 
   return (
-    <div className="relative h-[600px] md:h-[700px] overflow-hidden mt-20">
+    <div className="relative h-[600px] md:h-[700px] overflow-hidden mt-20 bg-[#2d1b69]">
       {/* Slides */}
       {heroSlides.map((slide, index) => (
         <div
           key={index}
           className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentSlide ? 'opacity-100' : 'opacity-0'
+            index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
           }`}
         >
           {/* Background Image with Overlay */}
@@ -62,29 +63,43 @@ export function Hero() {
           </div>
 
           {/* Content */}
-          <div className="relative h-full flex items-center">
+          <div className="relative h-full flex items-center z-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
               <div className="max-w-3xl">
-                <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                  {slide.title}
-                </h1>
-                <p className="text-xl md:text-2xl text-gray-200 mb-8">
-                  {slide.subtitle}
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Link
-                    to="/afiliacion"
-                    className="bg-gradient-to-r from-[#e91e8c] to-[#ff1493] text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 text-center"
-                  >
-                    {slide.cta}
-                  </Link>
-                  <Link
-                    to="/quienes-somos"
-                    className="bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-200 text-center border-2 border-white/30"
-                  >
-                    Nuestra Historia
-                  </Link>
-                </div>
+                {/* We use a key on FadeIn to force re-animation when slide changes */}
+                {index === currentSlide && (
+                  <>
+                    <FadeIn direction="right" duration={0.8} delay={0.2} key={`title-${index}`}>
+                      <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                        {slide.title}
+                      </h1>
+                    </FadeIn>
+                    
+                    <FadeIn direction="right" duration={0.8} delay={0.4} key={`subtitle-${index}`}>
+                      <p className="text-xl md:text-2xl text-gray-200 mb-8">
+                        {slide.subtitle}
+                      </p>
+                    </FadeIn>
+                    
+                    <FadeIn direction="up" duration={0.6} delay={0.6} key={`cta-${index}`}>
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        <Link
+                          to="/afiliacion"
+                          className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full text-white bg-gradient-to-r from-[#e91e8c] to-[#ff1493] hover:shadow-lg hover:scale-105 transition-all duration-200"
+                        >
+                          {slide.cta}
+                          <ArrowRight className="ml-2 -mr-1 h-5 w-5" />
+                        </Link>
+                        <Link
+                          to="/quienes-somos"
+                          className="inline-flex items-center justify-center px-8 py-3 border-2 border-white/30 text-base font-medium rounded-full text-white hover:bg-white/10 backdrop-blur-sm transition-all duration-200"
+                        >
+                          Nuestra Historia
+                        </Link>
+                      </div>
+                    </FadeIn>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -92,29 +107,31 @@ export function Hero() {
       ))}
 
       {/* Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/20 transition-all duration-200"
-        aria-label="Anterior"
-      >
-        <ChevronLeft size={24} />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/20 transition-all duration-200"
-        aria-label="Siguiente"
-      >
-        <ChevronRight size={24} />
-      </button>
+      <div className="absolute inset-0 flex items-center justify-between p-4 pointer-events-none z-30">
+        <button
+          onClick={prevSlide}
+          className="pointer-events-auto bg-white/10 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/20 transition-all duration-200"
+          aria-label="Anterior"
+        >
+          <ChevronLeft size={24} />
+        </button>
+        <button
+          onClick={nextSlide}
+          className="pointer-events-auto bg-white/10 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/20 transition-all duration-200"
+          aria-label="Siguiente"
+        >
+          <ChevronRight size={24} />
+        </button>
+      </div>
 
       {/* Dots Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-30">
         {heroSlides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide ? 'bg-[#e91e8c] w-8' : 'bg-white/50'
+            className={`h-3 rounded-full transition-all duration-300 ${
+              index === currentSlide ? 'bg-[#e91e8c] w-8' : 'bg-white/50 w-3'
             }`}
             aria-label={`Ir a diapositiva ${index + 1}`}
           />

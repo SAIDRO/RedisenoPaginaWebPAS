@@ -1,9 +1,9 @@
 ## Instrucciones
 
-## Instalar dependencias
+# Instalar dependencias
 
 npm i
 
-## Iniciar el servidor de desarrollo
+# Iniciar el servidor de desarrollo
 
 npm run dev

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Users, Calendar, Heart, Award } from 'lucide-react';
+import { FadeIn } from './ui/FadeIn';
 
 interface Stat {
   icon: React.ElementType;
@@ -100,12 +101,14 @@ export function StatsSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Estamos Trabajando
-          </h2>
-          <p className="text-xl text-white/90 max-w-2xl mx-auto">
-            Nuestro compromiso en números
-          </p>
+          <FadeIn direction="up">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Estamos Trabajando
+            </h2>
+            <p className="text-xl text-white/90 max-w-2xl mx-auto">
+              Nuestro compromiso en números
+            </p>
+          </FadeIn>
         </div>
 
         {/* Stats Grid */}
@@ -113,36 +116,37 @@ export function StatsSection() {
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
-              <div
-                key={index}
-                className="text-center group"
-              >
-                {/* Icon */}
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm mb-6 group-hover:scale-110 group-hover:bg-white/30 transition-all duration-300">
-                  <Icon size={40} className="text-white" />
+              <FadeIn key={index} delay={index * 0.1}>
+                <div
+                  className="text-center group"
+                >
+                  {/* Icon */}
+                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm mb-6 group-hover:scale-110 group-hover:bg-white/30 transition-all duration-300">
+                    <Icon size={40} className="text-white" />
+                  </div>
+
+                  {/* Number */}
+                  <Counter end={stat.value} suffix={stat.suffix} />
+
+                  {/* Label */}
+                  <p className="text-lg md:text-xl text-white/90 font-semibold mt-3">
+                    {stat.label}
+                  </p>
                 </div>
-
-                {/* Number */}
-                <Counter end={stat.value} suffix={stat.suffix} />
-
-                {/* Label */}
-                <p className="text-lg md:text-xl text-white/90 font-semibold mt-3">
-                  {stat.label}
-                </p>
-              </div>
+              </FadeIn>
             );
           })}
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-16">
+        <FadeIn direction="up" delay={0.4} className="text-center mt-16">
           <p className="text-white text-xl mb-6">
             ¿Quieres ser parte de estos logros?
           </p>
           <button className="bg-white text-[#e91e8c] px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200">
             Únete al Partido
           </button>
-        </div>
+        </FadeIn>
       </div>
     </section>
   );

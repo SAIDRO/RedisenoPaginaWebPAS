@@ -4,9 +4,12 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { NewsSection } from './components/NewsSection';
 import { ServicesSection } from './components/ServicesSection';
+import { CommitteesSection } from './components/CommitteesSection';
+import { AccessibilityWidget } from './components/AccessibilityWidget';
 import { MultimediaSection } from './components/MultimediaSection';
 import { StatsSection } from './components/StatsSection';
 import { Footer } from './components/Footer';
+import { ScrollToTop } from './components/ScrollToTop';
 import { Afiliacion } from './pages/Afiliacion';
 import { QuienesSomos } from './pages/QuienesSomos';
 import { Transparencia } from './pages/Transparencia';
@@ -21,6 +24,7 @@ function HomePage() {
       <Hero />
       <NewsSection limit={3} />
       <ServicesSection />
+      <CommitteesSection />
       <MultimediaSection />
       <StatsSection />
       <Footer />
@@ -28,10 +32,13 @@ function HomePage() {
   );
 }
 
+
 export default function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
+
         <Route path="/" element={<HomePage />} />
         <Route path="/afiliacion" element={<Afiliacion />} />
         <Route path="/quienes-somos" element={<QuienesSomos />} />
@@ -41,6 +48,7 @@ export default function App() {
         <Route path="/noticias" element={<Noticias />} />
         <Route path="/nuestro-partido" element={<QuienesSomos />} />
       </Routes>
+      <AccessibilityWidget />
     </Router>
   );
 }

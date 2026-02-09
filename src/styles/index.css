@@ -1,6 +1,6 @@
-@import './fonts.css';
-@import './tailwind.css';
-@import './theme.css';
+@import "./fonts.css";
+@import "./tailwind.css";
+@import "./theme.css";
 
 /* Smooth scrolling for anchor links */
 html {
@@ -36,6 +36,122 @@ html {
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Accessibility Modes */
+
+/* Grayscale */
+.grayscale-mode {
+  filter: grayscale(100%);
+}
+
+/* High Contrast */
+.high-contrast-mode {
+  filter: contrast(125%) saturate(110%);
+}
+
+.high-contrast-mode * {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.high-contrast-mode img,
+.high-contrast-mode video,
+.high-contrast-mode .accessibility-ignore {
+  filter: contrast(125%) saturate(110%);
+  background-color: transparent !important;
+}
+
+.high-contrast-mode a {
+  text-decoration: underline !important;
+  color: #ffff00 !important;
+}
+
+.high-contrast-mode button,
+.high-contrast-mode input,
+.high-contrast-mode select {
+  border: 2px solid #fff !important;
+}
+
+/* Dyslexia Friendly Font */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/opendyslexic@latest/open-dyslexic-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.dyslexia-font-mode * {
+  font-family: 'OpenDyslexic', sans-serif !important;
+}
+
+/* Big Cursor */
+.big-cursor-mode,
+.big-cursor-mode * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewport="0 0 48 48" style="fill:black;stroke:white;stroke-width:2px;"><path d="M1 1l18 16 7-6 6 15 5-2-6-15 11 3L1 1z"/></svg>'), auto !important;
+}
+
+/* Link Highlights */
+.link-highlight-mode a,
+.link-highlight-mode button {
+  background-color: #ffff00 !important;
+  color: #000 !important;
+  text-decoration: underline !important;
+  border: 2px solid #000 !important;
+}
+
+/* Stop Animations */
+.stop-animations-mode *,
+.stop-animations-mode *::before,
+.stop-animations-mode *::after {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important; /* Forces framer-motion elements to their resting state (x:0, y:0) */
+  opacity: 1 !important; /* Ensures hidden elements become visible if stuck in initial state */
+}
+
+/* Text Spacing */
+.text-spacing-mode * {
+  line-height: 2 !important;
+  letter-spacing: 0.1em !important;
+  word-spacing: 0.2em !important;
+}
+
+/* Reading Mask */
+.reading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.7);
+  /* The "hole" is created dynamically via JS/clip-path if needed, 
+     or we use a thick border on a div. Let's use the border trick. */
+  box-sizing: content-box;
+}
+
+#reading-guide-overlay {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 100px; /* Guide height */
+  background: rgba(255, 255, 255, 0.1); /* Highlight area */
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.75); /* Darken everything else */
+  pointer-events: none;
+  z-index: 10000;
+  transform: translateY(-50%);
+  display: none;
+}
+
+.reading-guide-mode #reading-guide-overlay {
+  display: block;
+}
+
